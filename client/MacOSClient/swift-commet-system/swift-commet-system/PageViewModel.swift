@@ -9,11 +9,11 @@ public class PageViewModel: ObservableObject {
     @Published private(set) var cteateTime: Int64 = 0
     
     private let service: PageServiceProtocol
-
+    
     init(service: PageServiceProtocol) {
         self.service = service
     }
-
+    
     func loadPageById(input: Int) {
         Task{
             await load(pageId: input)
@@ -36,17 +36,17 @@ public class PageViewModel: ObservableObject {
     }
     
     private func load(pageId: Int) async {
-            do {
-                let pageData = try await service.fetchPage(Id: pageId)
-
-                self.title = pageData.data.Topic.title
-                self.posts = pageData.data.PostList
-                self.cteateTime = pageData.data.Topic.create_time
-                self.contents = pageData.data.Topic.content
-
-            } catch {
-                self.errorMessage = error.localizedDescription
-            }
+        do {
+            let pageData = try await service.fetchPage(Id: pageId)
+            
+            self.title = pageData.data.Topic.title
+            self.posts = pageData.data.PostList
+            self.cteateTime = pageData.data.Topic.create_time
+            self.contents = pageData.data.Topic.content
+            
+        } catch {
+            self.errorMessage = error.localizedDescription
         }
+    }
 }
 
