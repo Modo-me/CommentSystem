@@ -61,7 +61,6 @@ public struct ContentView: View {
                     )
                     .animation(.linear(duration: 20).repeatForever(autoreverses: false), value: animateBackground)
                 
-                
                 // 标题
                 Text(viewModel.title)
                     .font(.system(size: 34, weight: .heavy, design: .rounded))
