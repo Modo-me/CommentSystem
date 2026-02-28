@@ -14,17 +14,35 @@ public class PageViewModel: ObservableObject {
         self.service = service
     }
     
+    //通过topicID加载页面
     func loadPageById(input: Int) {
         Task{
             await load(pageId: input)
         }
     }
     
+    //通过topic标题加载页面
     func loadPageByTopic(input: String){
         Task{
             await query(title: input)
         }
     }
+    
+    //增添新topic并加载
+    func addNewTopic(title: String, content: String){
+        Task{
+            await createNewTopic(title: title, content: content)
+        }
+    }
+    
+    //增添新post并加载post所属页面
+    func addNewPost(searchTitle: String, content: String){
+        Task{
+            await createNewPost(topicTitle: searchTitle, content: content)
+        }
+    }
+    
+    
     
     private func query(title: String) async {
         do {
@@ -47,6 +65,38 @@ public class PageViewModel: ObservableObject {
         } catch {
             self.errorMessage = error.localizedDescription
         }
+    }
+    
+    private func createNewTopic(title: String, content: String) async {
+        do {
+            let time = service.getCurrentTime()
+            let createdTopic = try await service.createTopic(
+                title: title,
+                content: content,
+                time: time
+            )
+            
+            await load(pageId: Int(createdTopic.id ?? 0))
+            
+        } catch {
+            self.errorMessage = error.localizedDescription
+        }
+    }
+    
+
+    
+    private func createNewPost(topicTitle: String, content: String) async {
+        do{
+            let time = service.getCurrentTime()
+            let topicId = try await service.fetchTopicId(title: topicTitle).id
+            _ = try await service.createPost(topicId: Int64(topicId), content: content, time: time)
+            
+            await load(pageId: topicId)
+            
+        } catch {
+            self.errorMessage = error.localizedDescription
+        }
+        
     }
 }
 

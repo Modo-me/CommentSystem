@@ -1,14 +1,14 @@
 import Foundation
 
 struct Post: Codable{
-    let id: Int64
+    let id: Int64?
     let parent_id: Int64
     let content: String
     let create_time: Int64
 }
 
 struct Topic: Codable{
-    let id: Int64
+    let id: Int64?
     let title: String
     let content: String
     let create_time: Int64

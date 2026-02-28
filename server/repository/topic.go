@@ -33,19 +33,24 @@ func NewTopicDaoInstance(db *gorm.DB) *TopicDao {
 }
 
 func (dao *TopicDao) QueryTopicByTitle(title string) (*Topic, error) {
-	var topic *Topic
+	var topic Topic
 	err := dao.db.
 		Where("title = ?", title).
 		First(&topic).Error
 
-	return topic, err
+	return &topic, err
 }
 
 func (dao *TopicDao) QueryTopicById(id int64) (*Topic, error) {
-	var topic *Topic
+	var topic Topic
 	err := dao.db.
 		Where("id = ?", id).
 		First(&topic).Error
 
-	return topic, err
+	return &topic, err
+}
+
+func (dao *TopicDao) AddTopic(topic *Topic) error {
+	err := dao.db.Create(topic).Error
+	return err
 }

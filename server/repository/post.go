@@ -43,3 +43,7 @@ func (dao *PostDao) QueryPostsByParentId(parentId int64) ([]*Post, error) {
 
 	return posts, err
 }
+
+func (dao *PostDao) AddPost(post *Post) error {
+	return dao.db.Create(post).Error
+}
