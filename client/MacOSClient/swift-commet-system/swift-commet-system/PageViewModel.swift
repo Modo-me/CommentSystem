@@ -42,8 +42,6 @@ public class PageViewModel: ObservableObject {
         }
     }
     
-    
-    
     private func query(title: String) async {
         do {
             let idData = try await service.fetchTopicId(title: title)
@@ -82,8 +80,6 @@ public class PageViewModel: ObservableObject {
             self.errorMessage = error.localizedDescription
         }
     }
-    
-
     
     private func createNewPost(topicTitle: String, content: String) async {
         do{

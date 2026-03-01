@@ -11,7 +11,7 @@ protocol PageServiceProtocol {
 class PageService: PageServiceProtocol {
     
     func fetchPage(Id: Int) async throws -> PageData {
-        let url = URL(string: "http:/localhost:8080/community/page/get/\(Id)")!
+        let url = URL(string: "https://www.modo.wang/community/page/get/\(Id)")!
         let (data, _) = try await URLSession.shared.data(from: url)
         return try JSONDecoder().decode(PageData.self, from: data)
     }
@@ -19,9 +19,9 @@ class PageService: PageServiceProtocol {
     func fetchTopicId(title: String) async throws -> IdData{
         
         var components = URLComponents()
-        components.scheme = "http"
-        components.host = "localhost"
-        components.port = 8080
+        components.scheme = "https"
+        components.host = "www.modo.wang"
+        //components.port = 8080
         components.path = "/community/page/queryid"
         components.queryItems = [
             URLQueryItem(name: "title", value: title)
@@ -44,7 +44,7 @@ class PageService: PageServiceProtocol {
             create_time: time
         )
         
-        guard let url = URL(string: "http://localhost:8080/community/page/addtopic") else {
+        guard let url = URL(string: "https://www.modo.wang/community/page/addtopic") else {
             throw URLError(.badURL)
         }
         
@@ -74,7 +74,7 @@ class PageService: PageServiceProtocol {
             create_time: time
         )
         
-        guard let url = URL(string: "http://localhost:8080/community/page/addpost") else {
+        guard let url = URL(string: "https://www.modo.wang/community/page/addpost") else {
             throw URLError(.badURL)
         }
         

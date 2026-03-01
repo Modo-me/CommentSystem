@@ -1,12 +1,16 @@
 package repository
 
 import (
+	"fmt"
+	"os"
+
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 func Init() *gorm.DB {
-	dsn := "host=127.0.0.1 user=caim password=123456 dbname=commentsDB port=5432 sslmode=disable"
+	host := os.Getenv("DB_HOST")
+	dsn := fmt.Sprintf("user=usrnanme password=yourpasswd  host=%s port=5432 dbname=commentsDB sslmode=disable", host)
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("Failed to connect to database")
